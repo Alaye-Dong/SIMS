@@ -29,11 +29,13 @@ public class LoginServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        if (isValid) {
+        if (!isValid) {
+            // 设置错误信息并重定向
+            request.getSession().setAttribute("error", "用户名或密码错误");
+            response.sendRedirect("login.jsp");
+        } else {
+            // 登录成功，重定向到主页或其他页面
             response.sendRedirect("home.jsp");
-        }
-        else {
-            response.sendRedirect("login.jsp?error=invalid");
         }
     }
 }
