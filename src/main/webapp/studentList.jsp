@@ -6,19 +6,20 @@
     <title>学生列表</title>
 </head>
 <body>
+
 <h2>添加新学生</h2>
 <form action="${pageContext.request.contextPath}/insertStudent" method="POST">
     <label for="studentName">姓名:</label>
-    <input type="text" id="studentName" name="studentName" required/><br/>
+    <input type="text" id="studentName" name="studentName" required/>
 
     <label for="age">年龄:</label>
-    <input type="number" id="age" name="age" required/><br/>
+    <input type="number" id="age" name="age" required/>
 
     <label for="gender">性别:</label>
     <select id="gender" name="gender">
         <option value="男">男</option>
         <option value="女">女</option>
-    </select><br/>
+    </select>
 
     <button type="submit">提交</button>
 </form>
