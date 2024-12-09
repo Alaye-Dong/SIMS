@@ -21,7 +21,8 @@ public class StudentServlet extends HttpServlet {
 
         if (path.endsWith("/studentList")) {
             try {
-                // 获取当前页码，默认为 1
+                // 获取查询条件和当前页码
+                String studentName = request.getParameter("studentName");
                 int page = 1;
                 if (request.getParameter("page") != null) {
                     page = Integer.parseInt(request.getParameter("page"));
@@ -31,9 +32,16 @@ public class StudentServlet extends HttpServlet {
                 int pageSize = 10;
                 int start = (page - 1) * pageSize;
 
-                // 查询学生列表
                 StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
-                List<Student> students = studentDAO.queryAll(start, pageSize);
+                List<Student> students = null;
+
+                if (studentName != null && !studentName.isEmpty()) {
+                    // 根据学生姓名查询
+                    students = studentDAO.queryByName(studentName);
+                } else {
+                    // 查询所有学生
+                    students = studentDAO.queryAll(start, pageSize);
+                }
 
                 // 获取总记录数
                 int totalStudents = studentDAO.getTotalCount();
@@ -43,6 +51,7 @@ public class StudentServlet extends HttpServlet {
                 request.setAttribute("students", students);
                 request.setAttribute("currentPage", page);
                 request.setAttribute("totalPages", totalPages);
+                request.setAttribute("studentName", studentName);  // 保持查询条件
 
                 // 转发到 JSP 页面
                 request.getRequestDispatcher("/studentList.jsp").forward(request, response);

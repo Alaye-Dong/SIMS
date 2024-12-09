@@ -194,4 +194,29 @@ public class StudentDAOImpl implements StudentDAO {
 
         return count;
     }
+
+    public List<Student> queryByName(String studentName) throws Exception {
+        String sql = "SELECT * FROM students WHERE student_name LIKE ?";
+        PreparedStatement pstmt = null;
+        DataBaseConnection dbc = null;
+        List<Student> students = new ArrayList<>();
+        try {
+            dbc = new DataBaseConnection();
+            pstmt = dbc.getConnection().prepareStatement(sql);
+            pstmt.setString(1, "%" + studentName + "%");
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Student student = new Student();
+                    student.setStudentId(rs.getInt("student_id"));
+                    student.setStudentName(rs.getString("student_name"));
+                    student.setAge(rs.getInt("age"));
+                    student.setGender(rs.getString("gender"));
+                    students.add(student);
+                }
+            }
+        } catch (SQLException e) {
+            throw new Exception("查询学生信息失败", e);
+        }
+        return students;
+    }
 }

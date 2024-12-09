@@ -24,6 +24,13 @@
     <button type="submit">提交</button>
 </form>
 
+<h2>查询学生</h2>
+<form action="${pageContext.request.contextPath}/studentList" method="GET">
+    <label for="studentName">姓名:</label>
+    <input type="text" id="studentName" name="studentName" value="${not empty studentName ? studentName : ''}"/>
+    <button type="submit">查询</button>
+</form>
+
 <h2>学生列表</h2>
 <table border="1">
     <thead>
