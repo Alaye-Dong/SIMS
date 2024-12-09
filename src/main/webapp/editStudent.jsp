@@ -16,7 +16,10 @@
         <label for="age">年龄:</label>
         <input type="number" name="age" value="${student.age}"/><br>
         <label for="gender">性别:</label>
-        <input type="text" name="gender" value="${student.gender}"/><br>
+        <select id="gender" name="gender">
+            <option value="男" ${student.gender == '男' ? 'selected' : ''}>男</option>
+            <option value="女" ${student.gender == '女' ? 'selected' : ''}>女</option>
+        </select><br/>
         <input type="submit" value="更新"/>
     </form>
 </c:if>
