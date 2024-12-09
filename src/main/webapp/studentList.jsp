@@ -54,5 +54,17 @@
     </c:forEach>
     </tbody>
 </table>
+
+<div>
+    <c:if test="${currentPage > 1}">
+        <a href="?page=1">首页</a>
+        <a href="?page=${currentPage - 1}">上一页</a>
+    </c:if>
+    <span>第 ${currentPage} 页 / 共 ${totalPages} 页</span>
+    <c:if test="${currentPage < totalPages}">
+        <a href="?page=${currentPage + 1}">下一页</a>
+        <a href="?page=${totalPages}">末页</a>
+    </c:if>
+</div>
 </body>
 </html>

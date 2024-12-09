@@ -6,43 +6,43 @@ import my.vo.Student;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAOImpl implements StudentDAO {
-    public List queryAll() throws Exception {
-        String sql = "SELECT * FROM students";
+    public List<Student> queryAll(int start, int pageSize) throws Exception {
+        String sql = "SELECT * FROM students LIMIT ?, ?";
+        List<Student> students = new ArrayList<>();
         PreparedStatement pstmt = null;
+        ResultSet rs = null;
         DataBaseConnection dbc = null;
-        List<Student> studentList = new ArrayList<>();
 
         try {
-            // 连接数据库
             dbc = new DataBaseConnection();
             pstmt = dbc.getConnection().prepareStatement(sql);
+            pstmt.setInt(1, start);
+            pstmt.setInt(2, pageSize);
+            rs = pstmt.executeQuery();
 
-            // 执行查询
-            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                // 从结果集中提取学生信息并封装到 Student 对象中
                 Student student = new Student();
                 student.setStudentId(rs.getInt("student_id"));
                 student.setStudentName(rs.getString("student_name"));
                 student.setAge(rs.getInt("age"));
                 student.setGender(rs.getString("gender"));
-                // 将学生对象添加到列表
-                studentList.add(student);
+                students.add(student);
             }
-            rs.close();
-        } catch (Exception e) {
-            throw new Exception("操作出现异常", e);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("分页查询失败", e);
         } finally {
-            // 关闭数据库连接
+            if (rs != null) rs.close();
             if (pstmt != null) pstmt.close();
             if (dbc != null) dbc.close();
         }
 
-        return studentList;
+        return students;
     }
 
     public void update(Student student) throws Exception {
@@ -166,5 +166,32 @@ public class StudentDAOImpl implements StudentDAO {
             if (pstmt != null) pstmt.close();
             if (dbc != null) dbc.close();
         }
+    }
+
+    public int getTotalCount() throws Exception {
+        String sql = "SELECT COUNT(*) FROM students";
+        int count = 0;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        DataBaseConnection dbc = null;
+
+        try {
+            dbc = new DataBaseConnection();
+            pstmt = dbc.getConnection().prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("获取总记录数失败", e);
+        } finally {
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (dbc != null) dbc.close();
+        }
+
+        return count;
     }
 }

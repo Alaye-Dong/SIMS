@@ -18,5 +18,7 @@ public interface StudentDAO {
     Student queryById(int studentId) throws Exception;
 
     // 查询全部
-    List queryAll() throws Exception;
+    List queryAll(int start, int pageSize) throws Exception;
+
+    int getTotalCount() throws Exception;
 }

@@ -20,11 +20,31 @@ public class StudentServlet extends HttpServlet {
         String path = request.getRequestURI();
 
         if (path.endsWith("/studentList")) {
-            // 显示学生列表
             try {
+                // 获取当前页码，默认为 1
+                int page = 1;
+                if (request.getParameter("page") != null) {
+                    page = Integer.parseInt(request.getParameter("page"));
+                }
+
+                // 每页显示的学生数量
+                int pageSize = 10;
+                int start = (page - 1) * pageSize;
+
+                // 查询学生列表
                 StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
-                List<Student> students = studentDAO.queryAll();
+                List<Student> students = studentDAO.queryAll(start, pageSize);
+
+                // 获取总记录数
+                int totalStudents = studentDAO.getTotalCount();
+                int totalPages = (int) Math.ceil((double) totalStudents / pageSize);
+
+                // 设置请求属性
                 request.setAttribute("students", students);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("totalPages", totalPages);
+
+                // 转发到 JSP 页面
                 request.getRequestDispatcher("/studentList.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
