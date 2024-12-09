@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/studentList", "/editStudent", "/updateStudent", "/deleteStudent"})
+@WebServlet({"/studentList", "/editStudent", "/updateStudent", "/deleteStudent", "/insertStudent"})
 public class StudentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getRequestURI();
@@ -78,6 +78,32 @@ public class StudentServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "删除操作失败");
+            }
+        } else if (request.getRequestURI().endsWith("/insertStudent")) {
+            try {
+                // 设置请求编码，防止中文乱码
+                request.setCharacterEncoding("UTF-8");
+
+                // 获取表单数据
+                String studentName = request.getParameter("studentName");
+                int age = Integer.parseInt(request.getParameter("age"));
+                String gender = request.getParameter("gender");
+
+                // 创建学生对象
+                Student student = new Student();
+                student.setStudentName(studentName);
+                student.setAge(age);
+                student.setGender(gender);
+
+                // 调用 DAO 层进行插入
+                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
+                studentDAO.insert(student);
+
+                // 插入完成后重定向到学生列表
+                response.sendRedirect("studentList");
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "插入操作失败");
             }
         }
     }

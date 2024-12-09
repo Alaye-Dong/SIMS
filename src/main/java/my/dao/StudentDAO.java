@@ -5,14 +5,16 @@ import my.vo.Student;
 import java.util.List;
 
 public interface StudentDAO {
-    //    // 增加操作
-//    void insert(Student student) throws Exception ;
+    // 增加
+    void insert(Student student) throws Exception;
+
+    // 修改
     void update(Student student) throws Exception;
 
-    // 删除操作
+    // 删除
     void delete(int studentId) throws Exception;
 
-    //    // 按ID查询操作
+    // 按ID查询
     Student queryById(int studentId) throws Exception;
 
     // 查询全部

@@ -140,4 +140,31 @@ public class StudentDAOImpl implements StudentDAO {
             if (dbc != null) dbc.close();
         }
     }
+
+    public void insert(Student student) throws Exception {
+        String sql = "INSERT INTO students (student_id, student_name, age, gender) VALUES (?, ?, ?, ?)";
+        PreparedStatement pstmt = null;
+        DataBaseConnection dbc = null;
+
+        try {
+            // 连接数据库
+            dbc = new DataBaseConnection();
+            pstmt = dbc.getConnection().prepareStatement(sql);
+
+            // 设置参数
+            pstmt.setInt(1, student.getStudentId());
+            pstmt.setString(2, student.getStudentName());
+            pstmt.setInt(3, student.getAge());
+            pstmt.setString(4, student.getGender());
+
+            // 执行插入操作
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("插入操作出现异常", e);
+        } finally {
+            // 关闭资源
+            if (pstmt != null) pstmt.close();
+            if (dbc != null) dbc.close();
+        }
+    }
 }
