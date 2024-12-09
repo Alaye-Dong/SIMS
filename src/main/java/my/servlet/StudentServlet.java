@@ -14,23 +14,61 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/studentList")
+@WebServlet({"/studentList", "/editStudent", "/updateStudent"})
 public class StudentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
-            List<Student> students = studentDAO.queryAll();
-            System.out.println(students);
-            // 将学生列表传递给 JSP 页面
-//            HttpSession session = request.getSession();
-//            session.setAttribute("students", students);
+        String path = request.getRequestURI();
 
-            request.setAttribute("students", students);
+        if (path.endsWith("/studentList")) {
+            // 显示学生列表
+            try {
+                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
+                List<Student> students = studentDAO.queryAll();
+                request.setAttribute("students", students);
+                request.getRequestDispatcher("/studentList.jsp").forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "数据加载失败");
+            }
+        } else if (path.endsWith("/editStudent")) {
+            // 获取学生信息并显示在编辑页面
+            try {
+                int studentId = Integer.parseInt(request.getParameter("studentId"));
+                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
+                Student student = studentDAO.queryById(studentId); // 假设有 queryById 方法
+                request.setAttribute("student", student);
+                request.getRequestDispatcher("/editStudent.jsp").forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "加载学生信息失败");
+            }
+        }
+    }
 
-            request.getRequestDispatcher("/studentList.jsp").forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "数据加载失败");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getRequestURI().endsWith("/updateStudent")) {
+            // 更新学生信息
+            try {
+                request.setCharacterEncoding("UTF-8"); // 防止中文乱码
+                int studentId = Integer.parseInt(request.getParameter("studentId"));
+                String studentName = request.getParameter("studentName");
+                int age = Integer.parseInt(request.getParameter("age"));
+                String gender = request.getParameter("gender");
+
+                Student student = new Student();
+                student.setStudentId(studentId);
+                student.setStudentName(studentName);
+                student.setAge(age);
+                student.setGender(gender);
+
+                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
+                studentDAO.update(student);
+
+                response.sendRedirect("studentList");
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "更新操作失败");
+            }
         }
     }
 }
