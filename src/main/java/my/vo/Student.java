@@ -7,7 +7,7 @@ public class Student {
     private String gender;
 
     public int getStudentId() {
-        return studentId;
+        return this.studentId;
     }
 
     public void setStudentId(int studentId) {
@@ -37,4 +37,5 @@ public class Student {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
 }

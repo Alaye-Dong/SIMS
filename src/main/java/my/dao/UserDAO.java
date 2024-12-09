@@ -2,8 +2,6 @@ package my.dao;
 
 import my.vo.User;
 
-import java.util.* ;
-
 public interface UserDAO{
     // 增加操作
     void insert(User user) throws Exception ;

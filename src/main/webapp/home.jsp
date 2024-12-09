@@ -5,5 +5,6 @@
 </head>
 <body>
 <h1>Welcome</h1>
+<a href="studentList.jsp">StudentList</a>
 </body>
 </html>
