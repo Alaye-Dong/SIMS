@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,7 +22,11 @@ public class StudentServlet extends HttpServlet {
             List<Student> students = studentDAO.queryAll();
             System.out.println(students);
             // 将学生列表传递给 JSP 页面
+//            HttpSession session = request.getSession();
+//            session.setAttribute("students", students);
+
             request.setAttribute("students", students);
+
             request.getRequestDispatcher("/studentList.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

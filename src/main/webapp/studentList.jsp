@@ -1,8 +1,5 @@
-        <%@ page import="java.sql.*, java.util.*" %>
-        <%@ page import="my.dao.StudentDAO" %>
-        <%@ page import="my.dao.DAOFactory" %>
-        <%@ page import="my.vo.Student" %>
-        <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,17 +7,6 @@
 </head>
 <body>
 <h2>学生列表</h2>
-
-<%
-    StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
-    List<Student> students = studentDAO.queryAll();
-
-
-        request.setAttribute("students", students);
-
-    if (students != null && !students.isEmpty()) {
-        for (Student student : students) {
-%>
 <table border="1">
     <thead>
     <tr>
@@ -31,22 +17,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td><%=student.getStudentId()%></td>
-        <td><%=student.getStudentName()%></td>
-        <td><%=student.getAge()%></td>
-        <td><%=student.getGender()%></td>
-    </tr>
+    <c:forEach items="${students}" var="student" >
+        <tr>
+            <td>${student.studentId}</td>
+            <td>${student.studentName}</td>
+            <td>${student.age}</td>
+            <td>${student.gender}</td>
+        </tr>
+    </c:forEach>
     </tbody>
-</table>
-<%
-    }
-} else {
-%>
-<p>暂无学生数据</p>
-<%
-    }
-%>
 </table>
 </body>
 </html>
