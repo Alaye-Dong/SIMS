@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/studentList", "/editStudent", "/updateStudent"})
+@WebServlet({"/studentList", "/editStudent", "/updateStudent", "/deleteStudent"})
 public class StudentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getRequestURI();
@@ -68,6 +68,16 @@ public class StudentServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "更新操作失败");
+            }
+        } else if (request.getRequestURI().endsWith("/deleteStudent")) {
+            try {
+                int studentId = Integer.parseInt(request.getParameter("studentId"));
+                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
+                studentDAO.delete(studentId);
+                response.sendRedirect("studentList");
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "删除操作失败");
             }
         }
     }

@@ -116,4 +116,28 @@ public class StudentDAOImpl implements StudentDAO {
 
         return student;
     }
+
+    public void delete(int studentId) throws Exception {
+        String sql = "DELETE FROM students WHERE student_id = ?";
+        PreparedStatement pstmt = null;
+        DataBaseConnection dbc = null;
+
+        try {
+            // Connect to the database
+            dbc = new DataBaseConnection();
+            pstmt = dbc.getConnection().prepareStatement(sql);
+
+            // Set the studentId parameter
+            pstmt.setInt(1, studentId);
+
+            // Execute the delete operation
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("删除操作出现异常", e);
+        } finally {
+            // Close the resources
+            if (pstmt != null) pstmt.close();
+            if (dbc != null) dbc.close();
+        }
+    }
 }

@@ -25,6 +25,11 @@
             <td>${student.gender}</td>
             <td>
                 <a href="${pageContext.request.contextPath}/editStudent?studentId=${student.studentId}">编辑</a>
+                <form action="${pageContext.request.contextPath}/deleteStudent" method="POST"
+                      onsubmit="return confirm('确定要删除吗？')">
+                    <input type="hidden" name="studentId" value="${student.studentId}"/>
+                    <button type="submit">删除</button>
+                </form>
             </td>
         </tr>
     </c:forEach>
