@@ -6,20 +6,12 @@
     <title>学生列表</title>
 </head>
 <body>
-
-
-<h2>查询学生</h2>
+<h2>学生列表</h2>
 <form action="${pageContext.request.contextPath}/studentList" method="GET">
     <label for="studentName">姓名:</label>
     <input type="text" id="studentName" name="studentName" value="${not empty studentName ? studentName : ''}"/>
     <button type="submit">查询</button>
 </form>
-
-<h2>学生列表</h2>
-<button type="button"
-        onclick="window.location.href='${pageContext.request.contextPath}/insertStudent.jsp'">
-    添加
-</button>
 <table border="1">
     <thead>
     <tr>
@@ -63,6 +55,10 @@
         <a href="?page=${currentPage + 1}">下一页</a>
         <a href="?page=${totalPages}">末页</a>
     </c:if>
+    <button type="button"
+            onclick="window.location.href='${pageContext.request.contextPath}/insertStudent.jsp'">
+        添加
+    </button>
 </div>
 
 
