@@ -32,7 +32,7 @@ public class StudentServlet extends HttpServlet {
                 int start = (page - 1) * pageSize;
 
                 StudentDAOInter studentDAOInter = DAOFactory.getStudentDAOInstance();
-                List<Student> students = null;
+                List<Student> students;
 
                 if (studentName != null && !studentName.isEmpty()) {
                     // 根据学生姓名查询
