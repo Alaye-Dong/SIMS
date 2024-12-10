@@ -14,7 +14,5 @@
 
     <input type="submit" value="添加课程">
 </form>
-
-<button onclick="window.location.href='courseList.jsp'">返回课程列表</button>
 </body>
 </html>

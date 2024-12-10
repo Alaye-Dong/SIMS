@@ -59,11 +59,10 @@ public class StudentServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "数据加载失败");
             }
         } else if (path.endsWith("/editStudent")) {
-            // 获取学生信息并显示在编辑页面
             try {
                 int studentId = Integer.parseInt(request.getParameter("studentId"));
                 StudentDAOInter studentDAOInter = DAOFactory.getStudentDAOInstance();
-                Student student = studentDAOInter.queryById(studentId); // 假设有 queryById 方法
+                Student student = studentDAOInter.queryById(studentId);
                 request.setAttribute("student", student);
                 request.getRequestDispatcher("/editStudent.jsp").forward(request, response);
             } catch (Exception e) {

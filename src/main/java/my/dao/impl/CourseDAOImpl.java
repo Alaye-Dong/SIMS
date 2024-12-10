@@ -33,6 +33,30 @@ public class CourseDAOImpl implements CourseDAOInter {
         return courseList;
     }
 
+
+    public List<Course> queryAll(int start, int pageSize) throws Exception {
+        List<Course> courseList = new ArrayList<>();
+        String sql = "SELECT course_id, course_name, course_duration FROM courses LIMIT ?, ?";
+        DataBaseConnection dbc = new DataBaseConnection();
+        try (Connection conn = dbc.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, start);
+            stmt.setInt(2, pageSize);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setCourseId(rs.getInt("course_id"));
+                course.setCourseName(rs.getString("course_name"));
+                course.setCourseDuration(rs.getString("course_duration"));
+                courseList.add(course);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("查询课程信息失败", e);
+        }
+        return courseList;
+    }
+
     @Override
     public int addCourse(Course course) throws Exception {
         String sql = "INSERT INTO courses(course_name, course_duration) VALUES(?, ?)";
@@ -100,5 +124,43 @@ public class CourseDAOImpl implements CourseDAOInter {
             e.printStackTrace();
             throw new Exception("查询课程失败", e);
         }
+    }
+
+    public int getCourseCount() throws Exception {
+        String sql = "SELECT COUNT(*) FROM courses";
+        DataBaseConnection dbc = new DataBaseConnection();
+        try (Connection conn = dbc.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("获取课程总数失败", e);
+        }
+        return 0;
+    }
+
+    public List<Course> queryByName(String courseName) throws Exception {
+        List<Course> courseList = new ArrayList<>();
+        String sql = "SELECT course_id, course_name, course_duration FROM courses WHERE course_name LIKE ?";
+        DataBaseConnection dbc = new DataBaseConnection();
+        try (Connection conn = dbc.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "%" + courseName + "%");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Course course = new Course();
+                course.setCourseId(rs.getInt("course_id"));
+                course.setCourseName(rs.getString("course_name"));
+                course.setCourseDuration(rs.getString("course_duration"));
+                courseList.add(course);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new Exception("根据课程名称查询失败", e);
+        }
+        return courseList;
     }
 }

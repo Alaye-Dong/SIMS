@@ -1,14 +1,14 @@
 package my.servlet;
 
-import my.dao.DAOFactory;
 import my.dao.impl.CourseDAOImpl;
-import my.dao.inter.StudentDAOInter;
 import my.vo.Course;
-import my.vo.Student;
 
-import javax.servlet.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,14 +20,38 @@ public class CourseServlet extends HttpServlet {
         String path = request.getRequestURI();
         if (path.endsWith("/courseList")) {
             try {
-                // 获取所有课程信息
+                // 获取当前页码和每页显示的记录数
+                int page = 1;
+                int pageSize = 10;  // 每页显示条记录
+                String pageParam = request.getParameter("page");
+                if (pageParam != null && !pageParam.isEmpty()) {
+                    page = Integer.parseInt(pageParam);
+                }
+
+                // 获取查询条件和当前页码
+                String courseName = request.getParameter("courseName");
+
+
                 CourseDAOImpl courseDAO = new CourseDAOImpl();
-                List<Course> courses = courseDAO.queryAll();
+                List<Course> courses;
 
-                // 将课程列表传递给 JSP 页面
+                if (courseName != null && !courseName.isEmpty()) {
+                    // 根据学生姓名查询
+                    courses = courseDAO.queryByName(courseName);
+                } else {
+                    // 查询所有学生
+                    courses = courseDAO.queryAll((page - 1) * pageSize, pageSize);
+                }
+
+                // 查询总记录数，用于计算总页数
+                int totalRecords = courseDAO.getCourseCount();
+                int totalPages = (int) Math.ceil(totalRecords / (double) pageSize);
+
+                // 将分页数据传递给 JSP 页面
                 request.setAttribute("courses", courses);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("totalPages", totalPages);
 
-                // 转发请求到 JSP
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/courseList.jsp");
                 dispatcher.forward(request, response);
             } catch (Exception e) {
