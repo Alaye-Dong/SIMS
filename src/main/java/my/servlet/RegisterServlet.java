@@ -5,10 +5,11 @@ import my.dao.inter.UserDAOInter;
 import my.vo.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-//@WebServlet("/register")
+@WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = request.getParameter("user_name");

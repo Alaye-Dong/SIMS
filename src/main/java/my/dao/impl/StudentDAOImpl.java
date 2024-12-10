@@ -11,6 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAOImpl implements StudentDAOInter {
+
+    private Student extractStudentFromResultSet(ResultSet rs) throws SQLException {
+        Student student = new Student();
+        student.setStudentId(rs.getInt("student_id"));
+        student.setStudentName(rs.getString("student_name"));
+        student.setAge(rs.getInt("age"));
+        student.setGender(rs.getString("gender"));
+        return student;
+    }
+
     public List<Student> queryAll(int start, int pageSize) throws Exception {
         String sql = "SELECT * FROM students LIMIT ?, ?";
         List<Student> students = new ArrayList<>();
@@ -24,14 +34,8 @@ public class StudentDAOImpl implements StudentDAOInter {
             pstmt.setInt(1, start);
             pstmt.setInt(2, pageSize);
             rs = pstmt.executeQuery();
-
             while (rs.next()) {
-                Student student = new Student();
-                student.setStudentId(rs.getInt("student_id"));
-                student.setStudentName(rs.getString("student_name"));
-                student.setAge(rs.getInt("age"));
-                student.setGender(rs.getString("gender"));
-                students.add(student);
+                students.add(extractStudentFromResultSet(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -206,12 +210,7 @@ public class StudentDAOImpl implements StudentDAOInter {
             pstmt.setString(1, "%" + studentName + "%");
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    Student student = new Student();
-                    student.setStudentId(rs.getInt("student_id"));
-                    student.setStudentName(rs.getString("student_name"));
-                    student.setAge(rs.getInt("age"));
-                    student.setGender(rs.getString("gender"));
-                    students.add(student);
+                    students.add(extractStudentFromResultSet(rs));
                 }
             }
         } catch (SQLException e) {
