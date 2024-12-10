@@ -1,11 +1,10 @@
 package my.servlet;
 
 import my.dao.DAOFactory;
-import my.dao.UserDAO;
+import my.dao.inter.UserDAOInter;
 import my.vo.User;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
@@ -21,9 +20,9 @@ public class RegisterServlet extends HttpServlet {
         user.setPassword(password);
 
         // 获取DAO实例并插入用户数据
-        UserDAO userDAO = DAOFactory.getUserDAOInstance();
+        UserDAOInter userDAOInter = DAOFactory.getUserDAOInstance();
         try {
-            userDAO.insert(user);
+            userDAOInter.insert(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

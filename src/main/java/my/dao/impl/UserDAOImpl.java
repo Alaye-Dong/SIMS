@@ -1,32 +1,31 @@
 package my.dao.impl;
 
-import my.dao.UserDAO;
+import my.dao.inter.UserDAOInter;
 import my.db.DataBaseConnection;
 import my.vo.User;
 
 import java.sql.*;
 
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl implements UserDAOInter {
     public void insert(User user) throws Exception {
-        String sql = "INSERT INTO users(user_name,password) VALUES(?,?)" ;
-        PreparedStatement pstmt = null ;
-        DataBaseConnection dbc = null ;
+        String sql = "INSERT INTO users(user_name,password) VALUES(?,?)";
+        PreparedStatement pstmt = null;
+        DataBaseConnection dbc = null;
         // 下面是针对数据库的具体操作
-        try{
+        try {
             // 连接数据库
-            dbc = new DataBaseConnection() ;
-            pstmt = dbc.getConnection().prepareStatement(sql) ;
+            dbc = new DataBaseConnection();
+            pstmt = dbc.getConnection().prepareStatement(sql);
             pstmt.setString(1, user.getUserName());
             pstmt.setString(2, user.getPassword());
             // 进行数据库更新操作
-            pstmt.executeUpdate() ;
-            pstmt.close() ;
-        }catch (Exception e){
-            throw new Exception("操作出现异常") ;
-        }
-        finally{
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (Exception e) {
+            throw new Exception("操作出现异常");
+        } finally {
             // 关闭数据库连接
-            dbc.close() ;
+            dbc.close();
         }
     }
 

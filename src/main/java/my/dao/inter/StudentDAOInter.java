@@ -1,10 +1,10 @@
-package my.dao;
+package my.dao.inter;
 
 import my.vo.Student;
 
 import java.util.List;
 
-public interface StudentDAO {
+public interface StudentDAOInter {
     // 增加
     void insert(Student student) throws Exception;
 

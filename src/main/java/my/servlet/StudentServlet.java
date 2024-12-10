@@ -1,7 +1,7 @@
 package my.servlet;
 
 import my.dao.DAOFactory;
-import my.dao.StudentDAO;
+import my.dao.inter.StudentDAOInter;
 
 import my.vo.Student;
 
@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,19 +31,19 @@ public class StudentServlet extends HttpServlet {
                 int pageSize = 10;
                 int start = (page - 1) * pageSize;
 
-                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
+                StudentDAOInter studentDAOInter = DAOFactory.getStudentDAOInstance();
                 List<Student> students = null;
 
                 if (studentName != null && !studentName.isEmpty()) {
                     // 根据学生姓名查询
-                    students = studentDAO.queryByName(studentName);
+                    students = studentDAOInter.queryByName(studentName);
                 } else {
                     // 查询所有学生
-                    students = studentDAO.queryAll(start, pageSize);
+                    students = studentDAOInter.queryAll(start, pageSize);
                 }
 
                 // 获取总记录数
-                int totalStudents = studentDAO.getTotalCount();
+                int totalStudents = studentDAOInter.getTotalCount();
                 int totalPages = (int) Math.ceil((double) totalStudents / pageSize);
 
                 // 设置请求属性
@@ -63,8 +62,8 @@ public class StudentServlet extends HttpServlet {
             // 获取学生信息并显示在编辑页面
             try {
                 int studentId = Integer.parseInt(request.getParameter("studentId"));
-                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
-                Student student = studentDAO.queryById(studentId); // 假设有 queryById 方法
+                StudentDAOInter studentDAOInter = DAOFactory.getStudentDAOInstance();
+                Student student = studentDAOInter.queryById(studentId); // 假设有 queryById 方法
                 request.setAttribute("student", student);
                 request.getRequestDispatcher("/editStudent.jsp").forward(request, response);
             } catch (Exception e) {
@@ -90,8 +89,8 @@ public class StudentServlet extends HttpServlet {
                 student.setAge(age);
                 student.setGender(gender);
 
-                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
-                studentDAO.update(student);
+                StudentDAOInter studentDAOInter = DAOFactory.getStudentDAOInstance();
+                studentDAOInter.update(student);
 
                 response.sendRedirect("studentList");
             } catch (Exception e) {
@@ -101,8 +100,8 @@ public class StudentServlet extends HttpServlet {
         } else if (request.getRequestURI().endsWith("/deleteStudent")) {
             try {
                 int studentId = Integer.parseInt(request.getParameter("studentId"));
-                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
-                studentDAO.delete(studentId);
+                StudentDAOInter studentDAOInter = DAOFactory.getStudentDAOInstance();
+                studentDAOInter.delete(studentId);
                 response.sendRedirect("studentList");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -125,8 +124,8 @@ public class StudentServlet extends HttpServlet {
                 student.setGender(gender);
 
                 // 调用 DAO 层进行插入
-                StudentDAO studentDAO = DAOFactory.getStudentDAOInstance();
-                studentDAO.insert(student);
+                StudentDAOInter studentDAOInter = DAOFactory.getStudentDAOInstance();
+                studentDAOInter.insert(student);
 
                 // 插入完成后重定向到学生列表
                 response.sendRedirect("studentList");

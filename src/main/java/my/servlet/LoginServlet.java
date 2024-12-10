@@ -1,14 +1,14 @@
 package my.servlet;
 
 import my.dao.DAOFactory;
-import my.dao.UserDAO;
+import my.dao.inter.UserDAOInter;
 import my.vo.User;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.*;
+
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -22,9 +22,9 @@ public class LoginServlet extends HttpServlet {
 
         boolean isValid = false;
 
-        UserDAO userDAO = DAOFactory.getUserDAOInstance();
+        UserDAOInter userDAOInter = DAOFactory.getUserDAOInstance();
         try {
-            isValid =  userDAO.check(user);
+            isValid = userDAOInter.check(user);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

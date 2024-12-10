@@ -1,6 +1,6 @@
 package my.dao.impl;
 
-import my.dao.StudentDAO;
+import my.dao.inter.StudentDAOInter;
 import my.db.DataBaseConnection;
 import my.vo.Student;
 
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDAOImpl implements StudentDAO {
+public class StudentDAOImpl implements StudentDAOInter {
     public List<Student> queryAll(int start, int pageSize) throws Exception {
         String sql = "SELECT * FROM students LIMIT ?, ?";
         List<Student> students = new ArrayList<>();

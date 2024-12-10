@@ -1,11 +1,12 @@
-package my.dao;
+package my.dao.inter;
 
 import my.vo.User;
 
-public interface UserDAO{
+public interface UserDAOInter {
     // 增加操作
-    void insert(User user) throws Exception ;
-    boolean check(User user) throws Exception ;
+    void insert(User user) throws Exception;
+
+    boolean check(User user) throws Exception;
     // 修改操作
 //    void update(User user) throws Exception ;
 //    // 删除操作
