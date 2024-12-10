@@ -12,7 +12,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/courseList", "/deleteCourse", "/editCourse", "/updateCourse", "/insertCourse"})
+@WebServlet({"/courseList", "/deleteCourse", "/editCourse", "/updateCourse", "/addCourse"})
 public class CourseServlet extends HttpServlet {
 
     @Override

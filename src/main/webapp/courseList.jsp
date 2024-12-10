@@ -37,6 +37,10 @@
     </c:forEach>
     </tbody>
 </table>
+<button type="button"
+        onclick="window.location.href='${pageContext.request.contextPath}/addCourse.jsp'">
+    添加
+</button>
 <button onclick="window.location.href='home.jsp'">返回主页</button>
 </body>
 </html>

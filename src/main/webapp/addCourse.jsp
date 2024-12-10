@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>添加课程</title>
+    <title>Title</title>
 </head>
 <body>
 <h1>添加新课程</h1>
