@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CourseDAOInter {
 //    // 增加
-//    void insert(Course course) throws Exception;
+//    void add(Course course) throws Exception;
 //
 //    // 修改
 //    void update(Course course) throws Exception;
@@ -21,6 +21,14 @@ public interface CourseDAOInter {
 
     // 查询全部
     List queryAll() throws Exception;
+
+    int addCourse(Course course) throws Exception;
+
+    int updateCourse(Course course) throws Exception;
+
+    int deleteCourse(int courseId) throws Exception;
+
+    Course queryById(int courseId) throws Exception;
 
 //    int getTotalCount() throws Exception;
 }

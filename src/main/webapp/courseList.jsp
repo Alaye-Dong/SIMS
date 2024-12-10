@@ -22,6 +22,17 @@
             <td>${course.courseId}</td>
             <td>${course.courseName}</td>
             <td>${course.courseDuration}</td>
+            <td>
+                <button type="button"
+                        onclick="window.location.href='${pageContext.request.contextPath}/editCourse?courseId=${course.courseId}'">
+                    编辑
+                </button>
+                <form action="${pageContext.request.contextPath}/deleteCourse" method="POST"
+                      onsubmit="return confirm('确定要删除吗？')">
+                    <input type="hidden" name="courseId" value="${course.courseId}"/>
+                    <button type="submit">删除</button>
+                </form>
+            </td>
         </tr>
     </c:forEach>
     </tbody>
