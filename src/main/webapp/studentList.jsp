@@ -61,6 +61,7 @@
     </button>
 </div>
 
+<button onclick="window.location.href='home.jsp'">返回主页</button>
 
 </body>
 </html>

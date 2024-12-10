@@ -9,7 +9,7 @@
 <form action="register" method="post">
     <input type="text" name="user_name" placeholder="User Name" required>
     <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Register</button>
+    <button type="submit">注册</button>
 </form>
 </body>
 </html>

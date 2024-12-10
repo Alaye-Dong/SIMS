@@ -26,5 +26,6 @@
     </c:forEach>
     </tbody>
 </table>
+<button onclick="window.location.href='home.jsp'">返回主页</button>
 </body>
 </html>
