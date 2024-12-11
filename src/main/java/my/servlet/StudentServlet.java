@@ -15,6 +15,8 @@ import java.util.List;
 
 @WebServlet({"/studentList", "/editStudent", "/updateStudent", "/deleteStudent", "/addStudent"})
 public class StudentServlet extends HttpServlet {
+    private static final String VIEW_PATH = "./view/student/";
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getRequestURI();
 
@@ -53,7 +55,7 @@ public class StudentServlet extends HttpServlet {
                 request.setAttribute("studentName", studentName);  // 保持查询条件
 
                 // 转发到 JSP 页面
-                request.getRequestDispatcher("/studentList.jsp").forward(request, response);
+                request.getRequestDispatcher(VIEW_PATH + "studentList.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "数据加载失败");
@@ -64,7 +66,7 @@ public class StudentServlet extends HttpServlet {
                 StudentDAOInter studentDAOInter = DAOFactory.getStudentDAOInstance();
                 Student student = studentDAOInter.queryById(studentId);
                 request.setAttribute("student", student);
-                request.getRequestDispatcher("/editStudent.jsp").forward(request, response);
+                request.getRequestDispatcher(VIEW_PATH + "editStudent.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "加载学生信息失败");

@@ -56,7 +56,7 @@
         <a href="?page=${totalPages}">末页</a>
     </c:if>
     <button type="button"
-            onclick="window.location.href='addStudent.jsp'">
+            onclick="window.location.href='./view/student/addStudent.jsp'">
         添加
     </button>
 </div>
