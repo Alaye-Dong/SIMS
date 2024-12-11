@@ -14,10 +14,12 @@ import java.util.List;
 
 @WebServlet({"/courseList", "/deleteCourse", "/editCourse", "/updateCourse", "/addCourse"})
 public class CourseServlet extends HttpServlet {
+    private static final String VIEW_PATH = "./view/course/";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getRequestURI();
+
         if (path.endsWith("/courseList")) {
             try {
                 // 获取当前页码和每页显示的记录数
@@ -30,7 +32,6 @@ public class CourseServlet extends HttpServlet {
 
                 // 获取查询条件和当前页码
                 String courseName = request.getParameter("courseName");
-
 
                 CourseDAOImpl courseDAO = new CourseDAOImpl();
                 List<Course> courses;
@@ -52,7 +53,7 @@ public class CourseServlet extends HttpServlet {
                 request.setAttribute("currentPage", page);
                 request.setAttribute("totalPages", totalPages);
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/courseList.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher(VIEW_PATH + "courseList.jsp");
                 dispatcher.forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -65,7 +66,7 @@ public class CourseServlet extends HttpServlet {
                 CourseDAOImpl courseDAO = new CourseDAOImpl();
                 Course course = courseDAO.queryById(courseId); // 假设有 queryById 方法
                 request.setAttribute("course", course);
-                request.getRequestDispatcher("/editCourse.jsp").forward(request, response);
+                request.getRequestDispatcher(VIEW_PATH + "editCourse.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "加载课程信息失败");

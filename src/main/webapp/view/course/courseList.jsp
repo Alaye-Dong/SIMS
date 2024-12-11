@@ -56,7 +56,7 @@
     </c:if>
 </div>
 <button type="button"
-        onclick="window.location.href='${pageContext.request.contextPath}/addCourse.jsp'">
+        onclick="window.location.href='./view/course/addCourse.jsp'">
     添加
 </button>
 <button onclick="window.location.href='home.jsp'">返回主页</button>
