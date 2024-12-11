@@ -35,7 +35,10 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
         } else {
             // 登录成功，重定向到主页或其他页面
+            // 登录成功，保存用户信息到 session
+            request.getSession().setAttribute("user", userName);
             response.sendRedirect("home.jsp");
         }
+
     }
 }
