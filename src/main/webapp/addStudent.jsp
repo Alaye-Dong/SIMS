@@ -12,7 +12,7 @@
 </head>
 <body>
 <h2>添加新学生</h2>
-<form action="${pageContext.request.contextPath}/insertStudent" method="POST">
+<form action="${pageContext.request.contextPath}/addStudent" method="POST">
     <label for="studentName">姓名:</label>
     <input type="text" id="studentName" name="studentName" required/>
 

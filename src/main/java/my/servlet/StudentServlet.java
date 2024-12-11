@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/studentList", "/editStudent", "/updateStudent", "/deleteStudent", "/insertStudent"})
+@WebServlet({"/studentList", "/editStudent", "/updateStudent", "/deleteStudent", "/addStudent"})
 public class StudentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getRequestURI();
@@ -73,7 +73,8 @@ public class StudentServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getRequestURI().endsWith("/updateStudent")) {
+        String path = request.getRequestURI();
+        if (path.endsWith("/updateStudent")) {
             // 更新学生信息
             try {
                 request.setCharacterEncoding("UTF-8"); // 防止中文乱码
@@ -96,7 +97,7 @@ public class StudentServlet extends HttpServlet {
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "更新操作失败");
             }
-        } else if (request.getRequestURI().endsWith("/deleteStudent")) {
+        } else if (path.endsWith("/deleteStudent")) {
             try {
                 int studentId = Integer.parseInt(request.getParameter("studentId"));
                 StudentDAOInter studentDAOInter = DAOFactory.getStudentDAOInstance();
@@ -106,7 +107,7 @@ public class StudentServlet extends HttpServlet {
                 e.printStackTrace();
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "删除操作失败");
             }
-        } else if (request.getRequestURI().endsWith("/insertStudent")) {
+        } else if (path.endsWith("/addStudent")) {
             try {
                 // 设置请求编码，防止中文乱码
                 request.setCharacterEncoding("UTF-8");
