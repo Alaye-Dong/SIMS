@@ -8,7 +8,7 @@
 <h1><%= "学生信息管理系统" %>
 </h1>
 <br/>
-<a href="login.jsp">Login</a>
-<a href="register.jsp">Register</a>
+<a href="login.jsp">登录</a>
+<a href="register.jsp">注册</a>
 </body>
 </html>

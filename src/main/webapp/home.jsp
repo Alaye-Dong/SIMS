@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Home</title>
+    <title>主页</title>
 </head>
 <body>
-<h1>Welcome</h1>
+<h1>欢迎</h1>
 
 <%--正确跳转获取数据页面的方式--%>
 <a href="${pageContext.request.contextPath}/studentList">学生管理</a>

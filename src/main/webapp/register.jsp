@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>register</title>
+    <title>注册</title>
 </head>
 <body>
 <%--TODO 重复用户名注册验证--%>
