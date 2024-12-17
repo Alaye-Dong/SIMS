@@ -7,8 +7,8 @@
 <%--TODO 重复用户名注册验证--%>
 <%--TODO 各种成功和失败的提示 --%>
 <form action="register" method="post">
-    <input type="text" name="user_name" placeholder="User Name" required>
-    <input type="password" name="password" placeholder="Password" required>
+    <input type="text" name="user_name" placeholder="用户名" required>
+    <input type="password" name="password" placeholder="密码" required>
     <button type="submit">注册</button>
 </form>
 </body>
